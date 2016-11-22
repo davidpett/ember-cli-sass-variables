@@ -36,15 +36,18 @@ module.exports = {
     this._super.included.apply(this, arguments);
     this.options = this.app.options.sassVariables || {};
   },
-  postprocessTree: function(type, tree) {
-    if (type === 'all' || type === 'styles') {
-      if (this.options.variablesFile) {
-        var file = fs.readFileSync(this.options.variablesFile, 'utf8');
-        var sassVariables = getVariables(file);
-
-        filendir.writeFileSync('app/utils/sass-variables.js', `const sassVariables = JSON.parse(\`${JSON.stringify(sassVariables)}\`);\n\nexport default sassVariables;`, 'utf8');
+  postBuild: function(result) {
+    if (this.options.variablesFile) {
+      var file = fs.readFileSync(this.options.variablesFile, 'utf8');
+      var sassVariables = getVariables(file);
+      let outputPath = 'app/utils/sass-variables.js';
+      var outputFile = fs.readFileSync(outputPath, 'utf8');
+      var component = `const sassVariables = JSON.parse(\`${JSON.stringify(sassVariables)}\`);\n\nexport default sassVariables;`;
+      if (outputFile !== component) {
+        console.log('ember-cli-sass-variables');
+        filendir.writeFileSync(outputPath, component, 'utf8');
       }
     }
-    return tree;
+    return result;
   }
 };
