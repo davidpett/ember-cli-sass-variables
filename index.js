@@ -6,6 +6,9 @@ var filendir = require('filendir');
 var camelCase = require('lodash.camelcase');
 var stripComments = require('strip-json-comments');
 
+/**
+  `getVariables` is taken from https://github.com/nordnet/sass-variable-loader
+*/
 var getVariables = function(content) {
   const variableRegex = /\$(.+):\s+(.+);/;
   const variables = [];
@@ -34,18 +37,29 @@ module.exports = {
     }
 
     this._super.included.apply(this, arguments);
-    this.options = this.app.options.sassVariables || {};
+    this.variablesFile = this.app.options.sassVariables || null;
+    this.appDir = this.app.options.trees.app;
   },
   postBuild: function(result) {
-    if (this.options.variablesFile) {
-      var file = fs.readFileSync(this.options.variablesFile, 'utf8');
-      var sassVariables = getVariables(file);
-      let outputPath = 'app/utils/sass-variables.js';
-      var outputFile = fs.readFileSync(outputPath, 'utf8');
-      var component = `const sassVariables = JSON.parse(\`${JSON.stringify(sassVariables)}\`);\n\nexport default sassVariables;`;
-      if (outputFile !== component) {
-        console.log('ember-cli-sass-variables');
-        filendir.writeFileSync(outputPath, component, 'utf8');
+    if (this.variablesFile) {
+      var outputPath = this.appDir + '/utils/sass-variables.js';
+      var sassVariables = null;
+      var outputFile = null;
+
+      var file = fs.readFileSync(this.variablesFile, 'utf8');
+      if (file) {
+        sassVariables = getVariables(file);
+        var utilObject = `const sassVariables = JSON.parse(\`${JSON.stringify(sassVariables)}\`);\n\nexport default sassVariables;`;
+        try {
+          outputFile = fs.readFileSync(outputPath, 'utf8');
+        } catch(error) {}
+
+        if (outputFile !== utilObject) {
+          console.log('ember-cli-sass-variables');
+          filendir.writeFileSync(outputPath, utilObject, 'utf8');
+        }
+      } else {
+        console.warn('Please configure the `sassVariables: \'app/styles/_variables.scss\'` object in ember-cli-build.js`');
       }
     }
     return result;
