@@ -38,11 +38,10 @@ module.exports = {
 
     this._super.included.apply(this, arguments);
     this.variablesFile = this.app.options.sassVariables || null;
-    this.appDir = this.app.options.trees.app;
   },
   postBuild: function(result) {
     if (this.variablesFile) {
-      var outputPath = this.appDir + '/utils/sass-variables.js';
+      var outputPath = 'app/utils/sass-variables.js';
       var sassVariables = null;
       var outputFile = null;
 
