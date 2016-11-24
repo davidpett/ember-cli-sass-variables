@@ -48,7 +48,7 @@ module.exports = {
       var file = fs.readFileSync(this.variablesFile, 'utf8');
       if (file) {
         sassVariables = getVariables(file);
-        var utilObject = `const sassVariables = JSON.parse(\`${JSON.stringify(sassVariables)}\`);\n\nexport default sassVariables;`;
+        var utilObject = `// DON'T UPDATE THIS FILE MANUALLY, IT IS AUTO-GENERATED.\nconst sassVariables = JSON.parse(\`${JSON.stringify(sassVariables)}\`);\n\nexport default sassVariables;`;
         try {
           outputFile = fs.readFileSync(outputPath, 'utf8');
         } catch(error) {}

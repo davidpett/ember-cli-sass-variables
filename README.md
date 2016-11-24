@@ -1,27 +1,54 @@
-# Ember-cli-sass-variables
+[![Build Status](https://travis-ci.org/davidpett/ember-cli-sass-variables.svg?branch=master)](https://travis-ci.org/davidpett/ember-cli-sass-variables)
+[![npm version](https://badge.fury.io/js/ember-cli-sass-variables.svg)](https://badge.fury.io/js/ember-cli-sass-variables)
+[![Ember Observer Score](http://emberobserver.com/badges/ember-cli-sass-variables.svg)](http://emberobserver.com/addons/ember-cli-sass-variables)
+[![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg)](http://makeapullrequest.com)
+# ember-cli-sass-variables
 
-This README outlines the details of collaborating on this Ember addon.
+Access your SASS variables from your Ember app to keep things like style guides up to date.
 
-## Installation
+## Install
 
-* `git clone <repository-url>` this repository
-* `cd ember-cli-sass-variables`
-* `npm install`
-* `bower install`
+Simply run `ember install ember-cli-sass-variables`. If you don't already have `ember-cli-sass` installed, this will do it for you.
 
-## Running
+### Configure
 
-* `ember serve`
-* Visit your app at [http://localhost:4200](http://localhost:4200).
+Once installed, add a `.scss` file that only contains variables such as `app/styles/_variables.scss`.
 
-## Running Tests
+Configure the addon in your `ember-cli-build.js` file by adding the path to your variables file:
+```javascript
+var app = new EmberApp(defaults, {
+  sassVariables: 'app/styles/_variables.scss'
+});
+```
 
-* `npm test` (Runs `ember try:each` to test your addon against multiple Ember versions)
-* `ember test`
-* `ember test --server`
+## Usage
 
-## Building
+Once configured you can access the Array containing the variables like so:
+```javascript
+import Ember from 'ember';
+import sassVariables from '../utils/sass-variables';
 
-* `ember build`
+export default Ember.Component.extend({
+  sassVariables
+});
+```
 
-For more information on using ember-cli, visit [http://ember-cli.com/](http://ember-cli.com/).
+The Array contains objects with key/value pairs. In your SASS file, you might have:
+```scss
+$color-red: #FF4136;
+$color-blue: #357EDD;
+```
+And the Equivalent in javascript would be:
+```javascript
+[
+  {
+    key: 'colorRed',
+    value: '#FF4136'
+  }, {
+    key: 'colorBlue',
+    value: '#357EDD'
+  }
+]
+```
+
+The addon will watch to see if the variables file has changed and automatically update the javascript file with the correct information.
