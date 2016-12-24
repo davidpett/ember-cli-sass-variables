@@ -10,7 +10,7 @@ Access your SASS variables from your Ember app to keep things like style guides 
 
 Simply run `ember install ember-cli-sass-variables`. If you don't already have `ember-cli-sass` installed, this will do it for you.
 
-### Configure
+## Configure
 
 Once installed, add a `.scss` file that only contains variables such as `app/styles/_variables.scss`.
 
@@ -20,6 +20,11 @@ var app = new EmberApp(defaults, {
   sassVariables: 'app/styles/_variables.scss'
 });
 ```
+
+### Options
+`appDir` - (defaults to `app`) Directory of your app code
+
+`sassVariables` - path to a `.scss` file containing variables
 
 ## Usage
 
@@ -37,7 +42,9 @@ The Array contains objects with key/value pairs. In your SASS file, you might ha
 ```scss
 $color-red: #FF4136;
 $color-blue: #357EDD;
+$font-serif: 'Scope One', serif;
 ```
+
 And the Equivalent in javascript would be:
 ```javascript
 [
@@ -47,6 +54,9 @@ And the Equivalent in javascript would be:
   }, {
     key: 'colorBlue',
     value: '#357EDD'
+  }, {
+    key: 'fontSerif',
+    value: '"Scope One", serif'
   }
 ]
 ```

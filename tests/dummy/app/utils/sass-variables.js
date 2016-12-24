@@ -1,3 +1,4 @@
-const sassVariables = JSON.parse(`[{"name":"colorRed","value":"#FF4136"},{"name":"colorBlue","value":"#fc1234"}]`);
+// DON'T UPDATE THIS FILE MANUALLY, IT IS AUTO-GENERATED.
+const sassVariables = JSON.parse(`{"colorRed":"#FF4136","colorBlue":"#fc1234","fontSerif":"'Scope One', serif"}`);
 
 export default sassVariables;

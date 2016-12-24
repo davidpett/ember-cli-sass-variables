@@ -11,7 +11,7 @@ var stripComments = require('strip-json-comments');
 */
 var getVariables = function(content) {
   const variableRegex = /\$(.+):\s+(.+);/;
-  const variables = [];
+  const variables = {};
 
   stripComments(content).split('\n').forEach(line => {
     const variable = variableRegex.exec(line);
@@ -20,7 +20,7 @@ var getVariables = function(content) {
     const name = camelCase(variable[1].trim());
     const value = variable[2].replace(/!default|!important/g, '').trim();
 
-    variables.push({ name, value });
+    variables[name] = value;
     return;
   });
 
@@ -37,11 +37,12 @@ module.exports = {
     }
 
     this._super.included.apply(this, arguments);
+    this.appDir = this.app.options.appDir || 'app';
     this.variablesFile = this.app.options.sassVariables || null;
   },
   postBuild: function(result) {
     if (this.variablesFile) {
-      var outputPath = 'app/utils/sass-variables.js';
+      var outputPath = this.appDir + '/utils/sass-variables.js';
       var sassVariables = null;
       var outputFile = null;
 
@@ -58,7 +59,7 @@ module.exports = {
           filendir.writeFileSync(outputPath, utilObject, 'utf8');
         }
       } else {
-        console.warn('Please configure the `sassVariables: \'app/styles/_variables.scss\'` object in ember-cli-build.js`');
+        console.warn('Please configure the `sassVariables: \'styles/_variables.scss\'` object in ember-cli-build.js`');
       }
     }
     return result;
