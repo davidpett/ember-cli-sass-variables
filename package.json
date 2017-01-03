@@ -1,6 +1,6 @@
 {
   "name": "ember-cli-sass-variables",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Access your SASS variables from your Ember app to keep things like style guides up to date.",
   "directories": {
     "doc": "doc",
