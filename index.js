@@ -49,7 +49,7 @@ module.exports = {
       var file = fs.readFileSync(this.variablesFile, 'utf8');
       if (file) {
         sassVariables = getVariables(file);
-        var utilObject = `/* jshint ignore:start */\n// DON'T UPDATE THIS FILE MANUALLY, IT IS AUTO-GENERATED.\nconst sassVariables = JSON.parse(\`${JSON.stringify(sassVariables)}\`);\n\nexport default sassVariables;\n/* jshint ignore:end */`;
+        var utilObject = `/* eslint-disable */\n/* jshint ignore:start */\n// DON'T UPDATE THIS FILE MANUALLY, IT IS AUTO-GENERATED.\nconst sassVariables = JSON.parse(\`${JSON.stringify(sassVariables)}\`);\n\nexport default sassVariables;\n/* jshint ignore:end */`;
         try {
           outputFile = fs.readFileSync(outputPath, 'utf8');
         } catch(error) {}
