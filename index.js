@@ -12,10 +12,13 @@ var stripComments = require('strip-json-comments');
 var getVariables = function(content) {
   const variableRegex = /\$(.+):\s+(.+);/;
   const variables = {};
+  let lines = "";
 
   stripComments(content).split('\n').forEach(line => {
-    const variable = variableRegex.exec(line);
+    lines += line.trim();
+    const variable = variableRegex.exec(lines);
     if (!variable) { return; }
+    lines = "";
 
     const name = camelCase(variable[1].trim());
     const value = variable[2].replace(/!default|!important/g, '').trim();
