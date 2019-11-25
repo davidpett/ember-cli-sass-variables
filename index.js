@@ -40,7 +40,7 @@ module.exports = {
     this.appDir = this.app.options.appDir || 'app';
     this.variablesFile = this.app.options.sassVariables || null;
   },
-  postBuild: function(result) {
+  preBuild: function(result) {
     if (this.variablesFile) {
       var outputPath = this.appDir + '/utils/sass-variables.js';
       var sassVariables = null;
